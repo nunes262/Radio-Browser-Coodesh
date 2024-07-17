@@ -1,10 +1,14 @@
 'use client';
-import { Pin, Search } from "lucide-react";
+import { Heart, Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { RadioStation } from "../types";
-import Image from "next/image";
 
-export const SidebarComponent = () => {
+interface SidebarComponentProps {
+  addFavorite: (station: RadioStation) => void;
+  favoriteStations: RadioStation[];
+}
+
+export const SidebarComponent: React.FC<SidebarComponentProps> = ({ addFavorite, favoriteStations }) => {
   const [stations, setStations] = useState<RadioStation[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -18,6 +22,10 @@ export const SidebarComponent = () => {
   const filteredStations = stations.filter(station => 
     station.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const isFavorite = (station: RadioStation) => {
+    return favoriteStations.some(fav => fav.name === station.name);
+  };
 
   return (
     <aside className="w-96 bg-zinc-950 p-4 space-y-2">
@@ -38,13 +46,19 @@ export const SidebarComponent = () => {
         <div className="flex flex-col gap-2">
           {filteredStations.map((item, index) => (
             <div
-              className="w-full h-16 p-4 flex justify-start gap-2 items-center cursor-pointer transition duration-300 ease-in-out hover:bg-zinc-800 rounded-lg border border-zinc-800"
+              className="w-full h-16 p-4 flex justify-between gap-2 items-center cursor-pointer transition duration-300 ease-in-out hover:bg-zinc-800 rounded-lg border border-zinc-800"
               key={index}
             >
-              <img src={item.favicon} alt={item.name} width={32} height={32} />
-              <p className="flex items-center gap-2 text-xs font-semibold text-zinc-600 ">
-                {item.name}
-              </p>
+              <div className="flex items-center gap-4">
+                <img src={item.favicon} alt={item.name} width={32} height={32} />
+                <p className="flex items-center gap-2 text-xs font-semibold text-zinc-600 ">
+                  {item.name}
+                </p>
+              </div>
+              <Heart 
+                onClick={() => addFavorite(item)} 
+                color={isFavorite(item) ? "red" : "currentColor"}
+              />
             </div>
           ))}
         </div>
