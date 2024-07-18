@@ -25,7 +25,12 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+
+    @media screen and (max-width: 768px) {
+      overflow: auto;
+    }
 }
+
 
 @layer utilities {
   .text-balance {

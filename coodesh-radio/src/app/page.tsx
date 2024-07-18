@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { CentralDisplay, SidebarComponent, Title } from "./components";
 import { RadioStation } from "./types";
+import { AlignJustify } from 'lucide-react';
 
 export default function Home() {
   const [favoriteStations, setFavoriteStations] = useState<RadioStation[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const addFavorite = (station: RadioStation) => {
     setFavoriteStations((prevFavorites) => {
@@ -21,12 +23,20 @@ export default function Home() {
     );
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="h-screen flex">
-      <div className="flex-1 flex">
-        <SidebarComponent addFavorite={addFavorite} favoriteStations={favoriteStations} />
-      </div>
-      <div className="flex w-full p-10 flex-col gap-4">
+    <div className="h-screen flex flex-col md:flex-row">
+      <button 
+        className="md:hidden p-4"
+        onClick={toggleSidebar}
+      >
+        <AlignJustify className='hover:text-green-500'/>
+      </button>
+      <SidebarComponent addFavorite={addFavorite} favoriteStations={favoriteStations} isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <div className="flex w-full p-4 flex-col gap-4 md:p-10">
         <Title name={"Radio Browser"} />
         <CentralDisplay favoriteStations={favoriteStations} removeFavorite={removeFavorite} />
       </div>
