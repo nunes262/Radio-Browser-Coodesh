@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CentralDisplay, SidebarComponent, Title } from "./components";
 import { RadioStation } from "./types";
 import { AlignJustify } from 'lucide-react';
@@ -15,6 +15,7 @@ export default function Home() {
       }
       return [...prevFavorites, station];
     });
+    localStorage.setItem('favoriteStations', JSON.stringify(favoriteStations));
   };
 
   const removeFavorite = (station: RadioStation) => {
@@ -26,6 +27,14 @@ export default function Home() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() => { 
+    const savedFavorites = localStorage.getItem('favoriteStations'); 
+    if (savedFavorites) {
+       setFavoriteStations(JSON.parse(savedFavorites)); 
+    }
+  }, []);
+
 
   return (
     <div className="h-screen flex flex-col md:flex-row">
