@@ -12,7 +12,7 @@ https://coordeshradio-oss5so15h-nunes262s-projects.vercel.app/
 ## Instruções
 Para rodar o projeto, basta clonar o repositorio com o comando: 
    git clone https://github.com/nunes262/Radio-Browser-Coodesh.git
-Apos clonar, entre na pasta e rode os seguintes comandos:
+#Apos clonar, entre na pasta e rode os seguintes comandos:
    npm install
    npm run dev
 
