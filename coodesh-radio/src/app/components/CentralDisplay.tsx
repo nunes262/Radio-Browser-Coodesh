@@ -1,5 +1,5 @@
 'use client';
-import { Heart, Play, Search, Trash2, MoveRight, MoveLeft } from "lucide-react";
+import { Heart, Play, Search, Trash2, MoveRight, MoveLeft, CircleX } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { RadioStation } from "../types";
 
@@ -12,8 +12,8 @@ export const CentralDisplay: React.FC<CentralDisplayProps> = ({ favoriteStations
   const [currentStationIndex, setCurrentStationIndex] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 10;
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const itemsPerPage = 10;
 
   const filteredStations = favoriteStations.filter(station =>
     station.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -37,7 +37,6 @@ export const CentralDisplay: React.FC<CentralDisplayProps> = ({ favoriteStations
 
   return (
     <div className="w-full h-full flex items-center justify-start flex-col bg-zinc-900 rounded-lg overflow-auto">
-
       {currentStationIndex !== null && favoriteStations[currentStationIndex] && (
         <div className="w-full flex justify-between items-center p-4 space-x-4 flex-col md:flex-row bg-zinc-800 rounded-lg space-y-4">
           <div className="flex items-center gap-4 flex-col md:flex-row">
@@ -51,10 +50,13 @@ export const CentralDisplay: React.FC<CentralDisplayProps> = ({ favoriteStations
               {favoriteStations[currentStationIndex].name}
             </p>
           </div>
-          <audio controls autoPlay ref={audioRef}>
-            <source src={favoriteStations[currentStationIndex].url} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+          <div className="flex items-center justify-center gap-4 flex-col md:flex-row">
+            <audio controls ref={audioRef}>
+              <source src={favoriteStations[currentStationIndex].url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+            <CircleX className="w-8 h-8 text-zinc-200 hover:text-red-500 cursor-pointer" onClick={() => setCurrentStationIndex(null)} />
+          </div>
         </div>
       )}
 
